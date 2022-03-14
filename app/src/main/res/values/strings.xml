@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">lesson3</string>
+    <string name="HabitFreq">Периодичность\nвыполнения:</string>
+    <string-array name="HabitPriorities">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="HabitTypes">
+        <item>Полезная</item>
+        <item>Вредная</item>
+    </string-array>
+    <string-array name="HabitFreqs">
+        <item>мин</item>
+        <item>час</item>
+        <item>дней</item>
+        <item>недель</item>
+        <item>месяцев</item>
+        <item>лет</item>
+    </string-array>
+</resources>
