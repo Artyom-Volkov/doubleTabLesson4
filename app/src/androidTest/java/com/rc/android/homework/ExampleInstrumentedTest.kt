@@ -1,4 +1,4 @@
-package com.rc.android.lesson3
+package com.rc.android.homework
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package com.rc.android.lesson3
+package com.rc.android.homework
 
 import org.junit.Test
 
