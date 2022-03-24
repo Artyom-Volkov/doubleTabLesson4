@@ -19,6 +19,8 @@
 
     <string name="open_drawer">open drawer</string>
     <string name="close_drawer">close drawer</string>
+    <string name="usefull_habit">Полезная</string>
+    <string name="harmfull_habit">Вредная</string>
     <string-array name="HabitTypes">
         <item>Полезная</item>
         <item>Вредная</item>

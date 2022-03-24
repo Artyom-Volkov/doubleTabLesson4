@@ -11,18 +11,30 @@ import kotlinx.android.synthetic.main.fragment_habit_list.*
 class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
 
     companion object {
+
+        const val HABIT_TYPE = "HABIT_TYPE"
+
         @JvmStatic
-        fun newInstance() =
+        /*fun newInstance() =
             HabitListFragment().apply {
 
-            }
+            }*/
+
+        fun newInstance(habitType: Habit.Type) {
+            val bundle = Bundle()
+            bundle.putInt(HABIT_TYPE, habitType.ordinal)
+        }
+
     }
 
     private var clickListener: onClickListener? = null
+    private var habitType: Habit.Type? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let{
+            habitType = Habit.Type.values().get( it.getInt(HABIT_TYPE))
+        }
     }
 
     override fun onCreateView(
@@ -39,11 +51,15 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
 
         habitRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@HabitListFragment.context)
-            adapter = HabitAdapter((this@HabitListFragment.activity as MainActivity).habits)
+
+            val habits = when (habitType) {
+                Habit.Type.HARMFULL -> (this@HabitListFragment.activity as MainActivity).harmfullHabits
+                else -> (this@HabitListFragment.activity as MainActivity).usefullHabits
+            }
+
+            adapter = HabitAdapter(habits, habitType)
                 .apply { setOnClickListener(this@HabitListFragment) }
         }
-
-        addHabitFAB.setOnClickListener { addHabitFABClicked() }
     }
 
     override fun onStop() {
@@ -54,12 +70,9 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
         }
     }
 
-    private fun addHabitFABClicked(){
-        clickListener?.onAddHabitClick()
-    }
-
     override fun onItemClick(position: Int) {
-        clickListener?.onHabitClick(position)
+
+        clickListener?.onHabitClick(habitType, position)
     }
 
     fun setOnClickListener(clickListener: onClickListener){
@@ -71,7 +84,6 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
     }
 
     interface onClickListener{
-        fun onHabitClick(position: Int)
-        fun onAddHabitClick()
+        fun onHabitClick(habitType: Habit.Type?, position: Int)
     }
 }

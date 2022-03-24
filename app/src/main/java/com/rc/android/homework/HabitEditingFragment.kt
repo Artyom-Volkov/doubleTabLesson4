@@ -31,8 +31,6 @@ class HabitEditingFragment : Fragment() {
 
     }
 
-    private var param1: String? = null
-    private var param2: String? = null
     private var habit: Habit? = null
     private var position: Int? = null
 
@@ -123,7 +121,7 @@ class HabitEditingFragment : Fragment() {
         listener?.let {
             if (this.habit != null){
                 if (position!= null)
-                    it.HabitEdited(habit, position!!)
+                    it.HabitEdited(habit, position!!, habit.type != this.habit!!.type)
             }
             else
                 it.addNewHabit(habit)
@@ -140,6 +138,6 @@ class HabitEditingFragment : Fragment() {
 
     interface Listener{
         fun addNewHabit(habit: Habit);
-        fun HabitEdited(habit: Habit, position: Int);
+        fun HabitEdited(habit: Habit, position: Int, isNewHabitType: Boolean);
     }
 }

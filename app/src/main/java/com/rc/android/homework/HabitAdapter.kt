@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class HabitAdapter (
-    private val habits: List<Habit>
+    private val habits: List<Habit>,
+    private val typeOfFilteringHabits: Habit.Type?
     ) : RecyclerView.Adapter<HabitViewHolder>() {
 
     var clickListener: onClickListener? = null

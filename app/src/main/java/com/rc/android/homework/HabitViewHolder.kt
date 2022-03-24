@@ -16,8 +16,8 @@ class HabitViewHolder( view: View) : RecyclerView.ViewHolder(view) {
         habit_name_tv.text = habit.name
         habit_decription_tv.text = habit.decr
         habit_type_tv.text = when(habit.type.value){
-            Habit.Type.USEFULL.value -> "полезная"
-            else -> {"вредная"}
+            Habit.Type.USEFULL.value -> itemView.context.getString(R.string.usefull_habit)
+            else -> {itemView.context.getString(R.string.harmfull_habit)}
         }
         habit_priority_tv.text = habit.priority.toString()
         habit_freq_tv.text = habit.freq.executionNumber.toString() + " раз в " + habit.freq.countTimePeriod + " " + habit.freq.timePeriod.time
