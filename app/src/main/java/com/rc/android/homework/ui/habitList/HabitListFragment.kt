@@ -1,4 +1,4 @@
-package com.rc.android.homework
+package com.rc.android.homework.ui.habitList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rc.android.homework.Habit
+import com.rc.android.homework.HabitsDatabase
+import com.rc.android.homework.R
+import com.rc.android.homework.ui.habitEditing.HabitEditingFragment
 import kotlinx.android.synthetic.main.fragment_habit_list.*
 
 class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
@@ -27,14 +31,19 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
 
     }
 
-    private var clickListener: onClickListener? = null
+    //private var clickListener: onClickListener? = null
+    private val handler: HabitAdapterHandler = HabitAdapterHandler()
+
     private var habitType: Habit.Type? = null
+
+    private var habitEditingFragment: HabitEditingFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let{
             habitType = Habit.Type.values().get( it.getInt(HABIT_TYPE))
         }
+        handler.habitType = habitType
     }
 
     override fun onCreateView(
@@ -53,12 +62,12 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
             layoutManager = LinearLayoutManager(this@HabitListFragment.context)
 
             val habits = when (habitType) {
-                Habit.Type.HARMFULL -> (this@HabitListFragment.activity as MainActivity).harmfullHabits
-                else -> (this@HabitListFragment.activity as MainActivity).usefullHabits
+                Habit.Type.HARMFULL -> HabitsDatabase.harmfullHabits
+                else -> HabitsDatabase.usefullHabits
             }
 
             adapter = HabitAdapter(habits, habitType)
-                .apply { setOnClickListener(this@HabitListFragment) }
+                .apply { setOnClickListener(this@HabitListFragment.handler) }
         }
     }
 
@@ -72,18 +81,37 @@ class HabitListFragment : Fragment(), HabitAdapter.onClickListener {
 
     override fun onItemClick(position: Int) {
 
-        clickListener?.onHabitClick(habitType, position)
+        //clickListener?.onHabitClick(habitType, position)
+
     }
 
     fun setOnClickListener(clickListener: onClickListener){
-        this.clickListener = clickListener
+        //this.clickListener = clickListener
+        handler.setOnClickListener(clickListener)
     }
 
     fun unsetOnClickListener(){
-        this.clickListener
+        //this.clickListener = null
+        handler.setOnClickListener(null)
     }
 
     interface onClickListener{
         fun onHabitClick(habitType: Habit.Type?, position: Int)
+    }
+
+    class HabitAdapterHandler(): HabitAdapter.onClickListener{
+
+        private var clickListener: onClickListener? = null
+
+        fun setOnClickListener(clickListener: onClickListener?){
+            this.clickListener = clickListener
+        }
+
+        var habitType: Habit.Type? = null
+
+        override fun onItemClick(position: Int) {
+            clickListener?.onHabitClick(habitType, position)
+        }
+
     }
 }

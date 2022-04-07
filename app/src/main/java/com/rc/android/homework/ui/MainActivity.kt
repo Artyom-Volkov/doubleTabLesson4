@@ -1,17 +1,16 @@
-package com.rc.android.homework
+package com.rc.android.homework.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import com.rc.android.homework.R
+import com.rc.android.homework.ui.habitEditing.HabitEditingFragment
+import com.rc.android.homework.ui.habitList.HabitListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()/*, HabitListFragment.onClickListener, HabitEditingFragment.Listener*/{
-
-    //val habits: MutableList<Habit> = mutableListOf<Habit>()
-    val usefullHabits: MutableList<Habit> = mutableListOf<Habit>()
-    val harmfullHabits: MutableList<Habit> = mutableListOf<Habit>()
 
     var habitListFragment: HabitListFragment? = null
     var habitEditingFragment: HabitEditingFragment? = null
@@ -61,17 +60,6 @@ class MainActivity : AppCompatActivity()/*, HabitListFragment.onClickListener, H
             return@setNavigationItemSelectedListener true
         }
 
-
-        /*if (savedInstanceState == null){
-            habitListFragment = HabitListFragment.newInstance()
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.containerMainActivity, habitListFragment!!)
-                //.addToBackStack(null)
-                .commit()
-            habitListFragment?.setOnClickListener(this)
-        }*/
-
         if (savedInstanceState == null){
             mainFragment = MainFragment.newInstance()
             supportFragmentManager
@@ -91,51 +79,4 @@ class MainActivity : AppCompatActivity()/*, HabitListFragment.onClickListener, H
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    /*override fun onHabitClick(position: Int) {
-        habitEditingFragment = HabitEditingFragment.newInstance(habits[position], position)
-
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.containerMainActivity, habitEditingFragment!!)
-            .addToBackStack(null)
-            //.add(R.id.containerMainActivity, habitEditingFragment!!)
-            .commit()
-        habitEditingFragment?.setListener(this)
-    }
-
-    override fun onAddHabitClick() {
-        habitEditingFragment = HabitEditingFragment.newInstance()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.containerMainActivity, habitEditingFragment!!)
-            .addToBackStack(null)
-            //.add(R.id.containerMainActivity, habitEditingFragment!!)
-            .commit()
-        habitEditingFragment?.setListener(this)
-    }
-
-    override fun addNewHabit(habit: Habit) {
-
-        habitListFragment?.let {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.containerMainActivity, it)
-                .commit()
-        }
-
-        habit?.let { habits.add(it) }
-        habitRecyclerview?.adapter?.notifyDataSetChanged()
-    }
-
-    override fun HabitEdited(habit: Habit, position: Int) {
-        habitListFragment?.let {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.containerMainActivity, it)
-                .commit()
-        }
-
-        habits.set(position, habit)
-        habitRecyclerview?.adapter?.notifyItemChanged(position)
-    }*/
 }

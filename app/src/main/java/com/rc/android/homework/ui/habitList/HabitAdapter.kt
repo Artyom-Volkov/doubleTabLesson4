@@ -1,8 +1,12 @@
-package com.rc.android.homework
+package com.rc.android.homework.ui.habitList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.rc.android.homework.Habit
+import com.rc.android.homework.R
+import com.rc.android.homework.databinding.HabitCardBinding
 
 class HabitAdapter (
     private val habits: List<Habit>,
@@ -13,11 +17,12 @@ class HabitAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val v = inflater.inflate(R.layout.habit_card, parent, false)
+        val binding: HabitCardBinding = DataBindingUtil.inflate(inflater, R.layout.habit_card, parent, false)
 
-        var habitViewHolder = HabitViewHolder( v )
 
-        v.setOnClickListener {
+        var habitViewHolder = HabitViewHolder( binding )
+
+        binding.root.setOnClickListener {
             clickListener?.onItemClick(habitViewHolder.adapterPosition)
         }
 

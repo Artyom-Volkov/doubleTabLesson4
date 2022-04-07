@@ -1,12 +1,16 @@
-package com.rc.android.homework
+package com.rc.android.homework.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.rc.android.homework.Habit
+import com.rc.android.homework.ui.habitList.HabitListFragment
 
 class MainFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment), HabitListFragment.onClickListener {
 
-    private var listener: Listener? = null
+    //private var listener: Listener? = null
+
+    private val handler: HabitListFragmentHandler = HabitListFragmentHandler()
 
     override fun getItemCount(): Int = 2
 
@@ -15,30 +19,46 @@ class MainFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment), 
         val habitType: Habit.Type = when (position){
             0 -> Habit.Type.USEFULL
             1 -> Habit.Type.HARMFULL
-            else -> {Habit.Type.USEFULL}
+            else -> {
+                Habit.Type.USEFULL
+            }
         }
 
         val fragment = HabitListFragment()
         fragment.arguments = Bundle().apply {
             putInt(HabitListFragment.HABIT_TYPE, habitType.ordinal)
         }
-        fragment.setOnClickListener(this)
+        fragment.setOnClickListener(handler)
         return fragment
     }
 
     override fun onHabitClick(habitType: Habit.Type?, position: Int) {
-        listener?.onHabitClick(habitType, position)
+        //listener?.onHabitClick(habitType, position)
     }
 
     fun setListener(listener: Listener) {
-        this.listener = listener
+        handler.setListener(listener)
     }
 
     fun unsetListener(){
-        this.listener = null
+        handler.setListener(null)
     }
 
     interface Listener{
         fun onHabitClick(habitType: Habit.Type?, position: Int)
+    }
+
+    class HabitListFragmentHandler(): HabitListFragment.onClickListener{
+
+        private var listener: Listener? = null
+
+        fun setListener(listener: Listener?) {
+            this.listener = listener
+        }
+
+        override fun onHabitClick(habitType: Habit.Type?, position: Int) {
+            listener?.onHabitClick(habitType, position)
+        }
+
     }
 }
